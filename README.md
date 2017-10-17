@@ -1,2 +1,4 @@
 # ha_configuation_bay
-poldim
+This is my configuration for Home Assitant.
+
+
