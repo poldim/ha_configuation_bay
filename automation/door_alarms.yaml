@@ -1,0 +1,60 @@
+####################################################
+#                   DOOR ALARMS                    #
+####################################################
+
+
+
+- alias: Garage Door Alarm Enabler, Open
+  trigger:
+    platform: state
+    entity_id: sensor.template_garage_door
+    from: Closed
+    to: Open
+  action:
+    service: homeassistant.turn_on
+    entity_id: script.garage_door_alarm
+- alias: Garage Door Alarm Disabler, Closed
+  trigger:
+    platform: state
+    entity_id: sensor.template_garage_door
+    from: Open
+    to: Closed
+  action:
+    service: homeassistant.turn_off
+    entity_id: script.garage_door_alarm
+- alias: Front Door Alarm Enabler, Open
+  trigger:
+    platform: state
+    entity_id: sensor.template_front_door
+    from: Closed
+    to: Open
+  action:
+    service: homeassistant.turn_on
+    entity_id: script.front_door_alarm
+- alias: Front Door Alarm Disabler, Closed
+  trigger:
+    platform: state
+    entity_id: sensor.template_front_door
+    from: Open
+    to: Closed
+  action:
+    service: homeassistant.turn_off
+    entity_id: script.front_door_alarm
+- alias: Lightwell Door Alarm Enabler, Open
+  trigger:
+    platform: state
+    entity_id: sensor.template_lightwell_door
+    from: Closed
+    to: Open
+  action:
+    service: homeassistant.turn_on
+    entity_id: script.lightwell_door_alarm
+- alias: Lightwell Door Alarm Disabler, Closed
+  trigger:
+    platform: state
+    entity_id: sensor.template_lightwell_door
+    from: Open
+    to: Closed
+  action:
+    service: homeassistant.turn_off
+    entity_id: script.lightwell_door_alarm

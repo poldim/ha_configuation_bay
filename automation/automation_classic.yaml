@@ -1,0 +1,77 @@
+# - !include automation/washer.yaml
+# - !include automation/door_alarms.yaml
+# - !include automation/curtains.yaml
+# !include automation/washer.yaml
+# !include automation/door_alarms.yaml
+# !include automation/curtains.yaml
+
+# - alias: Announce package delivery
+#   trigger:
+#     platform: state
+#     entity_id: sensor.deliveries_today
+#   condition:
+#   - condition: template
+#     value_template: '{{trigger.to_state.state|int > trigger.from_state.state|int}}'
+#   - condition: state
+#     entity_id: group.all_devices
+#     state: home
+#   action:
+#   # - service: script.turn_on
+#   #   entity_id: script.play_tts
+#   #   data_template:
+#   #     variables:
+#   #       message: A package was just delivered.
+#   - service: notify.TEXT_DK
+#     data:
+#       message: 'Package delivered'
+#
+#
+# # - alias: Notify iOS app
+# #   trigger:
+# #     platform: state
+# #     entity_id: sensor.template_garage_door
+# #     from: Closed
+# #     to: Open
+# #   action:
+# #     service: notify.ios_dk-phone
+# #     data:
+# #       message: "TEST     Notify iOS app    TEST"
+# #       data:
+# #         push:
+# #           badge: 5
+# - alias: Notify iOS app
+#   trigger:
+#     platform: state
+#     entity_id: sensor.template_garage_door
+#     from: Closed
+#     to: Open
+#   action:
+#     service: notify.ios_dk-phone
+#     data:
+#       message: "Something happened at home!"
+#       data:
+#         push:
+#           badge: 5
+#         subtitle: "Subtitle goes here"
+
+
+        # notify:
+        #   - name: NOTIFIER_NAME
+        #     platform: group
+        #     services:
+        #       - service: dk-phone
+        #       - service: nm-phone
+#
+#
+#
+#
+#
+#
+# - alias: 'Update Available Notifications'
+#   trigger:
+#     platform: state
+#     entity_id: updater.updater
+#   action:
+#     service: notify.notify
+#     data:
+#       message: 'Update for Home Assistant is available.'

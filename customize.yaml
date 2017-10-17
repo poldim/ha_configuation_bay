@@ -1,0 +1,128 @@
+#############AEOTEC####
+  # binary_sensor.vision_unknown_type2022_id2201_sensor_4_0:
+  #   hidden: yes
+  # binary_sensor.vision_unknown_type2022_id2201_sensor_5_0:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_access_control_4_9:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_access_control_5_9:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_alarm_level_4_1:
+  #   # friendly_name: "Garage Door Cust"
+  #   # icon: mdi:garage
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_alarm_level_5_1:
+  #   # friendly_name: "Front Door Cust"
+  #   # icon: mdi:door
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_alarm_type_4_0:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_alarm_type_5_0:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_battery_level_4_0:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_battery_level_5_0:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_burglar_4_10:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_burglar_5_10:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_clock_4_14:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_clock_5_14:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_power_management_4_11:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_power_management_5_11:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_sourcenodeid_4_2:
+  #   hidden: yes
+  # sensor.vision_unknown_type2022_id2201_sourcenodeid_5_2:
+  #   hidden: yes
+  # zwave.vision_unknown_type2022_id2201_4:
+  #   hidden: yes
+  # zwave.vision_unknown_type2022_id2201_5:
+  #   hidden: yes
+
+
+
+
+#########CUSTOMIZE DEVICES########
+  sensor.esp_test:
+    hidden: yes
+
+
+#########CUSTOMIZE DEVICES########
+  sensor.template_front_door:
+    icon: mdi:glassdoor
+  sensor.template_garage_door:
+    icon: mdi:garage
+  sensor.template_lightwell_door:
+    icon: mdi:format-horizontal-align-left
+  script.bedroom_wake:
+    icon: mdi:run-fast
+  script.bedroom_sleep:
+    icon: mdi:hotel
+  automation.open_curtains_a_little_at_7am:
+    icon: mdi:weather-sunset-up
+  automation.close_curtains_at_sunset:
+    icon: mdi:weather-sunset-down
+
+  script.curtains_open:
+    icon: mdi:swap-horizontal
+  script.curtains_close:
+    icon: mdi:format-horizontal-align-center
+  script.curtains_stop:
+    icon: mdi:stop
+  scene.open_curtains_a_little_bit:
+    icon: mdi:clock-end
+
+  script.fan_onoff:
+    icon: mdi:fan
+  script.fan_speed:
+    icon: mdi:speedometer
+  scene.fan_rotation:
+    icon: mdi:rotate-3d
+  script.fan_timer:
+    icon: mdi:timer
+  scene.fan_ion:
+    icon: mdi:atom
+
+
+
+
+
+  binary_sensor.downstairs_thermostat_28_toledo_fan:
+    friendly_name: 'Fan'
+  binary_sensor.downstairs_thermostat_28_toledo_has_leaf:
+    friendly_name: 'Leaf'
+  binary_sensor.downstairs_thermostat_28_toledo_is_locked:
+    friendly_name: 'Locked'
+  binary_sensor.downstairs_thermostat_28_toledo_is_using_emergency_heat:
+    friendly_name: 'Using emergency heat'
+  binary_sensor.downstairs_thermostat_28_toledo_online:
+    friendly_name: 'Online'
+  sensor.downstairs_thermostat_28_toledo_humidity:
+    friendly_name: 'Humidity'
+  sensor.downstairs_thermostat_28_toledo_hvac_state:
+    friendly_name: 'HVAC State'
+  sensor.downstairs_thermostat_28_toledo_operation_mode:
+    friendly_name: 'Operation Mode'
+  sensor.downstairs_thermostat_28_toledo_target:
+    friendly_name: 'Target'
+  sensor.downstairs_thermostat_28_toledo_temperature:
+    friendly_name: 'Temperature'
+
+
+  sensor.deliveries_today:
+    icon: mdi:package-variant
+  sensor.packages_in_transit:
+    icon: mdi:truck-delivery
+
+  sensor.washer_status:
+    icon: mdi:washing-machine
+  sensor.washer_power:
+    icon: "mdi:washing-machine"
+
+  lock.front_door_deadbolt_locked:
+    friendly_name: 'Deadbolt Control'

@@ -1,0 +1,665 @@
+####################################################
+#                                                  #
+#                 Views  OR  Tabs                  #
+#                                                  #
+####################################################
+default_view:
+  name: Summary
+  view: yes
+  entities:
+    - group.security
+    - group.bedroom
+    - group.garage
+    # - group.environment
+    - group.28toledo
+    - group.settings
+    - group.people
+    - group.deliveries
+    # - device_tracker.dksiphone
+    # - device_tracker.nidhisiphone
+    - camera.front_door
+    - camera.usps_mail
+    - group.doors
+    # - group.power_consumption
+    - group.darksky
+
+
+####################################################
+#                                                  #
+#                Groups  OR  Cards                 #
+#                                                  #
+####################################################
+people:
+  name: People
+  view: no
+  icon: mdi:account-multiple
+  entities:
+    - device_tracker.dksiphone
+    - device_tracker.dkswatch
+    - device_tracker.nidhiswatch
+    - device_tracker.nidhisiphone
+    - device_tracker.nidhisiphonework
+# power_consumption:
+#   name: Power Consumption
+#   view: no
+#   entities:
+#     - sensor.pge_phase_a
+#     - sensor.pge_phase_b
+#     - sensor.ohmconnect_status
+
+security:
+  name: Security
+  view: yes
+  entities: group.door_status,group.front_door,lock.front_door_deadbolt_locked,camera.front_door,camera.garage_door,camera.garage_cars
+door_status:
+  name: Door Status
+  view: no
+  entities: sensor.template_front_door,sensor.template_garage_door,sensor.template_lightwell_door
+front_door:
+  name: Front Door
+  view: no
+  entities: sensor.front_door_deadbolt_status,sensor.template_front_deadbolt_status,lock.front_door_deadbolt_locked
+
+deliveries:
+  name: Deliveries
+  view: no
+  entities:
+  - sensor.usps_mail
+  - sensor.usps_packages
+  - sensor.ups
+  - sensor.fedex
+  - sensor.deliveries_today
+  # - sensor.packages_in_transit
+
+bedroom:
+  name: Bedroom
+  view: yes
+  entities: group.bedroom_automations,group.bedroom_curtains,group.bedroom_fan
+bedroom_automations:
+  name: Automations
+  view: no
+  control: hidden
+  entities: script.bedroom_wake,script.bedroom_sleep,automation.open_curtains_a_little_at_7am_mf,automation.close_curtains_at_sunset
+bedroom_curtains:
+  name: Curtains
+  view: no
+  control: hidden
+  entities: script.curtains_open,script.curtains_close,script.curtains_stop,scene.open_curtains_a_little_bit
+bedroom_fan:
+  name: Fan
+  view: no
+  control: hidden
+  entities: script.fan_onoff,script.fan_speed,scene.fan_rotation,script.fan_timer,scene.fan_ion
+
+garage:
+  name: Garage
+  view: yes
+  entities:
+    - group.homelab
+    - group.washer
+homelab:
+  name: HomeLAB
+  view: no
+  entities:
+    - group.speedtest
+    - group.homelab_switches
+    - sensor.homelab_power
+washer:
+  name: Washing Machine
+  view: no
+  entities:
+    # - input_select.washer_status
+    - sensor.washer_status
+    - switch.washer
+    - sensor.washer_power
+
+# living_room:
+#   name: Living Room
+#   view: yes
+#   entities:
+#     - media_player.living_room
+#     - media_player.yamaha_receiver
+#     # - media_player.yamaha_receiver_zone_2
+
+
+speedtest:
+  name: SpeedTest
+  view: no
+  entities:
+    - sensor.speedtest_download
+    - sensor.speedtest_ping
+    - sensor.speedtest_upload
+homelab_switches:
+  name: Outlet Switch Control
+  view: no
+  control: hidden
+  entities:
+    - switch.homelab
+
+environment:
+  name: Weather
+  view: no
+  entities:
+    - group.darksky
+darksky:
+  name: Dark Sky Weather
+  view: no
+  entities:
+    - sensor.date__time
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_daily_summary
+    - sensor.dark_sky_daily_high_temperature
+    - sensor.dark_sky_daily_low_temperature
+    - sensor.dark_sky_summary
+
+switches:
+  name: Switches
+  view: no
+  entities:
+    - switch.light_candle_in_living_room
+
+28toledo:
+  name: AirBNB
+  view: yes
+  # icon: mdi:
+  entities: climate.downstairs_28_toledo,group.28toledo_nest_sensors,group.28toledo_nest_thermostat
+28toledo_nest_thermostat:
+  name: Nest Thermostat
+  view: no
+  entities:
+    - binary_sensor.downstairs_thermostat_28_toledo_fan
+    - binary_sensor.downstairs_thermostat_28_toledo_has_leaf
+    - binary_sensor.downstairs_thermostat_28_toledo_is_locked
+    - binary_sensor.downstairs_thermostat_28_toledo_is_using_emergency_heat
+    - binary_sensor.downstairs_thermostat_28_toledo_online
+28toledo_nest_sensors:
+  name: Nest Sensors
+  view: no
+  entities:
+    - sensor.downstairs_thermostat_28_toledo_humidity
+    - sensor.downstairs_thermostat_28_toledo_hvac_state
+    - sensor.downstairs_thermostat_28_toledo_operation_mode
+    - sensor.downstairs_thermostat_28_toledo_target
+    - sensor.downstairs_thermostat_28_toledo_temperature
+
+settings:
+  name: Settings
+  view: yes
+  icon: mdi:settings
+  entities:
+    - automation.close_curtains_at_sunset
+    - automation.front_door_alarm_disabler_closed
+    - automation.front_door_alarm_enabler_open
+    - automation.garage_door_alarm_disabler_closed
+    - automation.garage_door_alarm_enabler_open
+    - automation.lightwell_door_alarm_disabler_closed
+    - automation.lightwell_door_alarm_enabler_open
+    - automation.open_curtains_a_little_at_7am_mf
+    - automation.set_washing_machine_active_when_power_detected
+    - automation.set_washing_machine_active_when_power_detected_2
+    - automation.set_washing_machine_clean
+    - automation.set_washing_machine_clean_2
+    - automation.set_washing_machine_finishing_when_power_drops
+    - automation.set_washing_machine_finishing_when_power_drops_2
+    - automation.set_washing_machine_idle_when_power_off
+    - automation.set_washing_machine_idle_when_power_off_2
+    - binary_sensor.door01_sensor
+    - binary_sensor.doorgarage_sensor
+    - binary_sensor.doorlightwell_sensor
+    - camera.front_door
+    - cover.garage_door
+    - device_tracker.dksiphone
+    - device_tracker.dkswatch
+    - device_tracker.nidhisiphone
+    - device_tracker.nidhisiphonework
+    - device_tracker.nidhiswatch
+    - device_tracker.randys_iphone
+    - device_tracker.randys_iphone_2
+    - group.28toledo
+    - group.28toledo_nest_sensors
+    - group.28toledo_nest_thermostat
+    - group.all_automations
+    - group.all_covers
+    - group.all_devices
+    - group.all_locks
+    - group.all_scripts
+    - group.all_switches
+    - group.bedroom
+    - group.bedroom_automations
+    - group.bedroom_curtains
+    - group.bedroom_fan
+    - group.darksky
+    - group.default_view
+    - group.deliveries
+    - group.door_status
+    - group.environment
+    - group.front_door
+    - group.garage
+    - group.homelab
+    - group.homelab_switches
+    - group.people
+    - group.power_consumption
+    - group.security
+    - group.settings
+    - group.speedtest
+    - group.switches
+    - group.washer
+    - input_select.washer_status
+    - lock.front_door_deadbolt_locked
+    - scene.fan_ion
+    - scene.fan_rotation
+    - scene.open_curtains_a_little_bit
+    - script.bedroom_sleep
+    - script.bedroom_wake
+    - script.curtains_close
+    - script.curtains_open
+    - script.curtains_open_quarter
+    - script.curtains_stop
+    - script.fan_ion
+    - script.fan_onoff
+    - script.fan_rotation
+    - script.fan_speed
+    - script.fan_timer
+    - script.front_door_alarm
+    - script.garage_door_alarm
+    - script.greeting
+    - script.lightwell_door_alarm
+    - script.test_alarm
+    - sensor.dark_sky_daily_high_temperature
+    - sensor.dark_sky_daily_low_temperature
+    - sensor.dark_sky_daily_summary
+    - sensor.dark_sky_hourly_summary
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_temperature
+    - sensor.date__time
+    - sensor.deliveries_today
+    - sensor.dks_iphone_battery_level
+    - sensor.dks_iphone_battery_state
+    - sensor.door01_access_control
+    - sensor.door01_alarm_level
+    - sensor.door01_alarm_type
+    - sensor.door01_burglar
+    - sensor.door01_clock
+    - sensor.door01_sourcenodeid
+    - sensor.doorgarage_access_control
+    - sensor.doorgarage_alarm_level
+    - sensor.doorgarage_alarm_type
+    - sensor.doorgarage_burglar
+    - sensor.doorgarage_clock
+    - sensor.doorgarage_power_management
+    - sensor.doorgarage_sourcenodeid
+    - sensor.doorlightwell_access_control
+    - sensor.doorlightwell_alarm_level
+    - sensor.doorlightwell_alarm_type
+    - sensor.doorlightwell_burglar
+    - sensor.doorlightwell_power_management
+    - sensor.doorlightwell_sourcenodeid
+    - sensor.fedex
+    - sensor.front_door_deadbolt_alarm_level
+    - sensor.front_door_deadbolt_alarm_type
+    - sensor.garage_door_button
+    - sensor.garage_door_button_2
+    - sensor.homelab_power
+    - sensor.ohm_hour
+    - sensor.packages_in_transit
+    - sensor.speedtest_download
+    - sensor.speedtest_ping
+    - sensor.speedtest_upload
+    - sensor.template_front_deadbolt_status
+    - sensor.template_front_door
+    - sensor.template_garage_door
+    - sensor.template_lightwell_door
+    - sensor.ups
+    - sensor.washer_power
+    - sensor.washer_status
+    - sun.sun
+    - switch.curtains_close
+    - switch.curtains_open
+    - switch.curtains_stop
+    - switch.fan_ion
+    - switch.fan_onoff
+    - switch.fan_rotation
+    - switch.fan_speed
+    - switch.fan_timer
+    - switch.homelab
+    - switch.light_candle_in_living_room
+    - switch.washer
+    - zone.home
+    - zone.nidhis_office
+    - zwave.aeotec_zw090_zstick_gen5
+    - zwave.door01
+    - zwave.doorgarage
+    - zwave.doorlightwell
+    - zwave.front_door_deadbolt
+
+
+
+
+
+# default_view:
+#  view: yes
+#  entities:
+#    - group.alarm_status
+#    - group.bathroom
+#    - group.bedroom
+#    - group.cameras
+#    - group.living_room
+#    - group.kitchen
+#    - group.brawler
+#    - device_tracker.ben6p_ben6p
+#    - device_tracker.cailin6p_cailin6p
+#    - device_tracker.watch_moto360
+# alarm:
+#   name: Alarm
+#   view: yes
+#   entities:
+#     - group.alarm_status
+#     - group.alert
+#     - group.doors
+#     - group.cameras
+#     - group.party
+#
+# blinds:
+#   name: blinds
+#   view: yes
+#   entities:
+#     - group.brawler
+#
+# environment:
+#   name: environment
+#   view: yes
+#   entities:
+#     - group.temperature
+#     - group.humidity
+#     - group.light
+#     - group.sound
+#     - group.weather
+#
+# Family:
+#   name: family
+#   view: yes
+#   entities:
+#     - group.ben
+#     - group.cailin
+#     - device_tracker.ben6p_ben6p
+#     - device_tracker.cailin6p_cailin6p
+#     - device_tracker.watch_moto360
+#
+# lights:
+#   name: lights
+#   view: yes
+#   entities:
+#     - group.bathroom
+#     - group.bedroom
+#     - group.living_room
+#     - group.kitchen
+#
+# media:
+#   name: media
+#   view: yes
+#   entities:
+#     - group.devices
+#
+# scenes:
+#   name: Scenes
+#   view: yes
+#   entities:
+#     - group.global
+#
+#
+# ha_status:
+#   name: HA Controls
+#   view: yes
+#   entities:
+#     - group.home_assistant_status
+#     - group.speedtest
+#     - group.lockouts
+#
+# zwave:
+#   name: ZWave
+#   view: yes
+#   entities:
+#     - group.aeotec_multisensor_6
+#     - group.fibaro_multisensor
+#     - group.aeotec_energy_monitor
+#     - group.gocontrol_door_sensors
+#     - group.gocontrol_pir_sensors
+#
+# ########################     GROUPS     ############################
+#
+# ##ZWave##
+# Aeotec MultiSensor 6:
+#    - binary_sensor.aeotec_multisensor_6_sensor_3
+#    - sensor.aeotec_multisensor_6_alarm_level_3
+#    - sensor.aeotec_multisensor_6_alarm_type_3
+#    - sensor.aeotec_multisensor_6_burglar_3
+#    - sensor.aeotec_multisensor_6_luminance_3
+#    - sensor.aeotec_multisensor_6_relative_humidity_3
+#    - sensor.aeotec_multisensor_6_temperature_3
+#    - sensor.aeotec_multisensor_6_sourcenodeid_3
+#    - sensor.aeotec_multisensor_6_ultraviolet_3
+#
+# Fibaro MultiSensor:
+#    - binary_sensor.fibaro_multisensor_sensor_4
+#    - sensor.fibaro_multisensor_alarm_level_4
+#    - sensor.fibaro_multisensor_alarm_type_4
+#    - sensor.fibaro_multisensor_burglar_4
+#    - sensor.fibaro_multisensor_luminance_4
+#    - sensor.fibaro_multisensor_seismic_intensity_4
+#    - sensor.fibaro_multisensor_sourcenodeid_4
+#    - sensor.fibaro_multisensor_temperature_4
+#
+# Aeotec Energy Monitor:
+#    - sensor.aeotec_energy_meter_energy_5
+#    - sensor.aeotec_energy_meter_energy_5_2
+#    - sensor.aeotec_energy_meter_energy_5_3
+#    - sensor.aeotec_energy_meter_power_5
+#    - sensor.aeotec_energy_meter_power_5_2
+#    - sensor.aeotec_energy_meter_power_5_3
+#    - sensor.aeotec_energy_meter_previous_reading_5
+#    - sensor.aeotec_energy_meter_previous_reading_5_2
+#    - sensor.aeotec_energy_meter_previous_reading_5_3
+#
+# GoControl Door Sensors:
+#    - binary_sensor.gocontrol_door_sensor_1_sensor_7
+#    - binary_sensor.gocontrol_door_sensor_2_sensor_8
+#    - sensor.gocontrol_door_sensor_1_alarm_level_7
+#    - sensor.gocontrol_door_sensor_1_alarm_type_7
+#    - sensor.gocontrol_door_sensor_1_burglar_7
+#    - sensor.gocontrol_door_sensor_1_sourcenodeid_7
+#    - sensor.gocontrol_door_sensor_2_alarm_level_8
+#    - sensor.gocontrol_door_sensor_2_alarm_type_8
+#    - sensor.gocontrol_door_sensor_2_burglar_8
+#    - sensor.gocontrol_door_sensor_2_sourcenodeid_8
+#
+# GoControl PIR Sensors:
+#    - binary_sensor.gocontrol_pir_1_sensor_6
+#    - sensor.gocontrol_pir_1_alarm_level_6
+#    - sensor.gocontrol_pir_1_alarm_type_6
+#    - sensor.gocontrol_pir_1_burglar_6
+#    - sensor.gocontrol_pir_1_sourcenodeid_6
+#    - sensor.gocontrol_pir_1_temperature_6
+#
+# ####Everything Else####
+# Alarm Status:
+#    - alarm_control_panel.alarm
+#    - sensor.br_motion
+#    - sensor.btr_motion
+#    - sensor.lr_motion
+#    - sensor.fibaro_multisensor_motion
+#    - sensor.aeotec_multisensor_motion
+#    - sensor.gocontrol_motion
+#
+# Doors:
+#    - sensor.gocontrol_door_2
+#    - sensor.gocontrol_door_1
+#
+# Alert:
+#    - script.lifx_alert
+#
+# HA Status:
+#    - script.restart_ha
+#    - sensor.cpu_use
+#    - sensor.ram_free
+#    - sensor.disk_free_home
+#    - sensor.last_boot
+#
+# Bedroom:
+#    - switch.bedroom_fan
+#    - switch.bedroom_lamp
+#    - light.bedroom_color_lifx
+#    - light.br_lifx
+#    - switch.bedroom_lifx
+#    - light.br_node_led
+#
+# Brawler:
+#    - switch.bedroom_blinds
+#    - switch.kitchen_blinds
+#    - switch.livingroom_blinds
+#
+# Cameras:
+#     - camera.front_door
+#     - camera.porch
+#
+# Ben:
+#    - script.refresh_devices
+#    - script.br_finder
+#    - script.car_finder_ben_notify
+#    - input_select.ben_status
+#    - sensor.google_travel_time__driving
+#    - sensor.car_driving_ben
+#    - binary_sensor.prius_status
+#    - binary_sensor.civic_status
+#    - binary_sensor.keys_status
+#    - sensor.destination_ben
+#    - sensor.eta_ben
+#    - sensor.ben_nexus_6p_battery
+#    - sensor.phone_batt_ben
+#    - sensor.watch_batt_ben
+#
+# Cailin:
+#    - script.refresh_devices
+#    - switch.cr_finder
+#    - script.cr_finder
+#    - script.car_finder_cailin_notify
+#    - input_select.cailin_status
+#    - sensor.car_driving_cailin
+#    - sensor.destination_cailin
+#    - sensor.eta_cailin
+#    - sensor.cailin_nexus_6p_battery
+#    - sensor.phone_batt_cailin
+#
+# Global:
+#    - script.all_off
+#    - script.all_on
+#    - script.sexy_time
+#    - script.prayer_time
+#    - script.party_time
+#    - script.party_over
+#    - script.media_playing_night
+#    - script.media_stopped_night
+#    - scene.startup
+#    - scene.shutdown
+#    - scene.night_time
+#    - input_select.lullaby
+#    - script.IFTTT
+#
+# Home Assistant Status:
+#    - script.restart_ha
+#    - sensor.cpu_use
+#    - sensor.ram_free
+#    - sensor.disk_free_home
+#    - sensor.last_boot
+#
+# Humidity:
+#    - sensor.weather_humidity
+#    - sensor.br_humidity
+#    - sensor.btr_humidity
+#    - sensor.lr_humidity
+#    - sensor.aeotec_multisensor_6_relative_humidity_3
+#
+# Kitchen:
+#     - switch.kitchen_outlet
+#
+# Light:
+#    - sensor.br_light
+#    - sensor.btr_light
+#    - sensor.lr_light
+#    - sensor.aeotec_multisensor_6_luminance_3
+#    - sensor.aeotec_multisensor_6_ultraviolet_3
+#    - sensor.fibaro_multisensor_motion_sensor_luminance_4
+#
+# Party:
+#    - light.party_button
+#    - sensor.party_button
+#    - switch.livingroom_desk_outlet
+#
+# Sound:
+#    - sensor.br_last_sound
+#    - sensor.br_clap_sound
+#
+# Speedtest:
+#    - sensor.speedtest_ping
+#    - sensor.speedtest_download
+#    - sensor.speedtest_upload
+#
+# Living Room:
+#    - light.lr_door_color_lifx
+#    - light.lr_fireplace_color_lifx
+#    - light.osmc
+#    - input_select.hyperion_effect
+#    - switch.hyperion
+#    - switch.wemo_insight_5050_led
+#    - light.jar_led
+#    - switch.livingroom_wall_outlet
+#
+# Bathroom:
+#    - light.bathroom_led
+#
+# Lockouts:
+#    - input_select.company
+#    - input_select.lock_pc
+#    - input_select.media_lockout
+#
+# Devices:
+#    - switch.pc_power
+#    - switch.pc_wol
+#    - switch.tv_power
+#    - switch.avr_power
+#    - switch.tv_input
+#    - scene.vol_up
+#    - scene.vol_down
+#    - media_player.living_room_media
+#    - media_player.bcrcc
+#    - media_player.kodi_cmstormtrooper
+#    - media_player.openelec
+#    - media_player.osmc
+#
+# Weather:
+#    - sensor.date__time
+#    - sensor.weather_icon
+#    - sensor.weather_condition
+#    - sensor.weather_summary
+#    - sun.sun
+#    - sensor.weather_cloud_coverage
+#    - sensor.weather_dew_point
+#    - sensor.weather_ozone
+#    - sensor.weather_precip_type
+#    - sensor.weather_precip_probability
+#    - sensor.weather_precip
+#    - sensor.weather_precip_intensity
+#    - sensor.weather_pressure
+#    - sensor.weather_visibility
+#    - sensor.weather_nearest_storm_distance
+#    - sensor.weather_wind_bearing
+#    - sensor.weather_wind_speed
+#
+# Temperature:
+#    - sensor.weather_temperature
+#    - sensor.weather_apparent_temperature
+#    - sensor.br_temperature
+#    - sensor.btr_temperature
+#    - sensor.lr_temperature
+#    - sensor.aeotec_multisensor_6_temperature_3
+#    - sensor.fibaro_multisensor_motion_sensor_temperature_4
+#    - sensor.gocontrol_pir_1_temperature_6

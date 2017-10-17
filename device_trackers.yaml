@@ -1,0 +1,17 @@
+  - platform: unifi
+    host: !secret unraid_ip
+    port: 8443
+    username: !secret unifi_username
+    password: !secret unifi_password
+    site_id: !secret unifi_site_id
+    interval_seconds: 10
+    consider_home: 180
+    track_new_devices: no
+    verify_ssl: False
+
+  # - platform: owntracks
+    # max_gps_accuracy: 2
+    # waypoints: True
+    # waypoint_whitelist:
+    #   - jon
+    #   - ram

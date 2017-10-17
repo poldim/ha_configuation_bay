@@ -1,0 +1,114 @@
+- platform: broadlink
+  host: 192.168.3.91
+  mac: b4:43:0d:fc:1a:44
+  friendly_name: Bedroom IR
+  switches:
+    curtains_open:
+      friendly_name: Curtains Open
+      command_on: 'JgA0ACsMJxAPKCwLDykPKA4pLAsPKA8pDygPAAR2LQsoEA4pKwwPKA4pDyknEA0qDygPKA8ADQUAAAAA'
+    curtains_close:
+      friendly_name: Curtains Close
+      command_on: 'JgA0ACsMKBAMKyoJECsMKycQDSsNKgwrDCsOAAR5Kg0qDQwrKwwNKwwrJxAMKwwrDSsMKw0ADQUAAAAA'
+    curtains_stop:
+      friendly_name: Curtains Stop
+      command_on: 'JgA0ACoNKgoPKysJEikMKw0qDCsoDw0rDSoNAAR5Kw0qDQ0qKgoSKA0qDSsNKicQDSoMKw4ADQUAAAAA'
+    fan_power:
+      friendly_name: Fan On/Off
+      command_on: 'JgBgACgSJBAMKygTJBENKQwsECkKLAsqCy4m7iYRJhIMKicQKRALMAcrCy0LKwwsCywm7yMWIxINLSISJhEMLwcsCy0KLgwqCywm7ScRJ0YoEiYQCysLLQstCiwILwssJQANBQAAAAAAAAAA'
+    fan_timer:
+      friendly_name: Fan Timer
+      command_on: 'JgBoACgPKBAKLSgQJhILKwsrCy0nEQktDSoLAAEJJhInEQsrKBAoDgsuCyoMKygRDCoJLg0AAQcqDicPDCwoECYQDCsMKw0qKg4MKwotCgABCigPKBALKygQJxANKg0qDCwnEQssCysMAA0F'
+    fan_speed:
+      friendly_name: Fan Speed
+      command_on: 'JgBoACcRJhELKycSJhAKLQsrDSsMLQsqKBALAAEJKA8nEAouJxEmDwstCy0LLA0qCi0nDwsAAQsnDSkQDCwmEiQUCioMLAwrDSsLKycTCgABCCcRJhELLCYRJhELLAwqDCwKLQwrKBEKAA0F'
+    fan_rotation:
+      friendly_name: Fan Rotation
+      command_on: 'JgBoACgPKA8MLCcQJxAMKwwrKBAMKwwrDCsMAAECLg8oDwwsJxAnEAwrDCsoEAwrDCsMKwwAAQgoDygPDCwnECcQDCsMKygQDCsMKwwrDAABCCgPKA8MLCcQJxAMKwwrKBAMKwwrDCsMAA0F'
+    fan_ion:
+      friendly_name: Fan Ion
+      command_on: 'JgBoACoOKg0OKSoNKg0PKSoNDikOKQ8oDykOAAEFKw0qDQ4pKg0qDQ8pKg0OKQ4pDygPKQ4AAQUqDioNDikqDSoNDykqDQ4pDikPKA8pDgABBSoOKg0OKSoNKg0PKSoNDikOKQ8oDykOAA0F'
+
+
+
+
+# - platform: broadlink
+#   host: 192.168.3.92
+#   mac:
+#   friendly_name: Livingroom IR
+#   switches:
+    # projector_off:
+    #   friendly_name: Projector Off
+    #   command_on: 'JgDYAAABJ5ITEhAVEBQRFBAVEBQRFBAVEBQRFBAVEBQROBU1EBQRFBAVEDkUNRI4FBARFBA5FBEQORQREBQRFBA5FDYQFBA5EQAF9wABJpMVEBAVEBQRFBAVEBQRFBAVEBQRFBAVEBQRORM2ExIQFBEUEDkROBE5FBARFBA5FBEQORQREBUQFBE5FDUQFRA5EwAF9QABJpMUERAUERQQFRAUERQQFRAUERQQFRAUERQQORQ1FRAQFRAVEDkTNhM2FBEQFRA5ExIQORQREBQQFRA5FDURFBA5FAANBQ'
+
+
+
+
+# Button Name: open| Button ID: 1 | Code: 260034002810280f0c2b280f0c2b0d2b0c2b280f0c2b0c2b0d2a0d00047a280f280f0d2b27100c2b0c2b0c2b28100c2b0c2b0c2b0c000d0500000000
+# Button Name: stop| Button ID: 2 | Code: 26006800281027100c2b27100c2b0b2c0c2b0d2b27100c2b0c2b0c00047b280f28100b2b28100c2b0c2b0c2b0c2b280f0d2b0c2b0c000b5e2a0f280f0c2b28100c2b0c2b0c2b0c2b0d2b0c2b0c2b0c00047a2810280f0c2b0c2b0d2a0d2b0c2b0c2b0c2b0c2b0d2b0c000d05
+# Button Name: close| Button ID: 3 | Code: 260034002a0e27110b2b27110b2b0f2828100c2b0f290e280f290e000478290f27100b2b28110b2b0e2928100d290f2810280e290f000d0500000000
+
+
+
+
+
+
+
+
+# - platform: rpi_rf
+#   gpio: 17
+#   switches:
+#     bedroom_fan:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code1_on
+#       code_off: !secret code1_off
+#     bedroom_lamp:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code2_on
+#       code_off: !secret code2_off
+#     livingroom_wall_outlet:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code3_on
+#       code_off: !secret code3_off
+#     livingroom_desk_outlet:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code4_on
+#       code_off: !secret code4_off
+#     kitchen_outlet:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code5_on
+#       code_off: !secret code5_off
+#     bedroom_blinds:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code6_on
+#       code_off: !secret code6_off
+#     kitchen_blinds:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code7_on
+#       code_off: !secret code7_off
+#     livingroom_blinds:
+#       protocol: 1
+#       pulselength: 186
+#       code_on: !secret code8_on
+#       code_off: !secret code8_off
+# - platform: command_line
+#   switches:
+#     pc_power:
+#       oncmd: !secret pc_on_cmd
+#       offcmd: !secret pc_off_cmd
+#     hyperion:
+#       oncmd: '/home/hass/bruh2/hyperion/hyperionon.sh'
+#       offcmd: '/home/hass/bruh2/hyperion/hyperionoff.sh'
+#     tv_power:
+#       oncmd:  'kodi-send --host=192.168.1.125 --port=9777 --action="ActivateWindow(10000)"'
+#       offcmd:  'kodi-send --host=192.168.1.125 --port=9777 --action="ActivateScreensaver"'
+# - platform: wake_on_lan
+#   mac_address: !secret pc_mac
+#   name: "PC WOL"
+#   host: "192.168.1.141"

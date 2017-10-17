@@ -1,0 +1,238 @@
+##########################################################################
+############################ WASHING MACHINE #############################
+##########################################################################
+
+# When we detect power being drawn from the washing machine,
+# mark the washing machine as using power
+- alias: Set washing machine active when power detected
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washer_power
+      above: 5
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Idle
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Running
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Finishing
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Running
+
+# - alias: "Set washing machine active when power detected"
+#   trigger:
+#     - above: 5
+#       entity_id: sensor.washer_power
+#       platform: numeric_state
+#   condition:
+#     condition: or
+#     conditions:
+#       - condition: state
+#         entity_id: input_select.washer_status
+#         state: Idle
+#       - condition: state
+#         entity_id: input_select.washer_status
+#         state: Running
+#       - condition: state
+#         entity_id: input_select.washer_status
+#         state: Finishing
+#   action:
+#     - data:
+#         entity_id: input_select.washer_status
+#         option: Running
+#       service: input_select.select_option
+
+
+
+# When the power level drops below 10, and the washing machine is set to
+# the 'Running' state, mark the washing machine as Finished
+
+- alias: Set washing machine finishing when power drops
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washer_power
+      below: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Running
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Finishing
+
+
+
+# Once the washing machine status has been 'Drying' for 30 minutes, mark the
+# washing machine as clean
+
+- alias: Set washing machine clean
+  trigger:
+    - platform: state
+      entity_id: input_select.washer_status
+      to: Finishing
+      for:
+        minutes: 15
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Finishing
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Clean
+
+
+
+# When the power drops and the washing machine is Clean or Finishing, someone has
+# turned the washing machine off and emptied it. We should do this when the state
+# of the washing machine is clean or Finishing, just incase someone opens the
+# washing machine before the 30 minute timeout has been reached.
+
+- alias: Set washing machine Idle when power off
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washer_power
+      below: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.washer_power
+        below: 5
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_select.washer_status
+          state: Clean
+        - condition: state
+          entity_id: input_select.washer_status
+          state: Finishing
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Idle
+
+
+
+
+# When we detect power being drawn from the washing machine,
+# mark the washing machine as using power
+
+- alias: Set washing machine active when power detected
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washer_power
+      above: 5
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Running
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Clean
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Finishing
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Running
+
+
+
+# When the power level drops below 10, and the washing machine is set to
+# the 'Running' state, mark the washing machine as Finished
+
+- alias: Set washing machine finishing when power drops
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washer_power
+      below: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Running
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Finishing
+
+
+
+
+# Once the washing machine status has been 'Finishing' for 15 minutes, mark the
+# washing machine as clean
+
+- alias: Set washing machine clean
+  trigger:
+    - platform: state
+      entity_id: input_select.washer_status
+      to: Finishing
+      for:
+        minutes: 15
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Finishing
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Clean
+
+
+
+
+# When the power drops and the washing machine is Clean or Drying, someone has
+# turned the washing machine off and emptied it. We should do this when the state
+# of the washing machine is clean or Finishing, just incase someone opens the
+# washing machine before the 30 minute timeout has been reached.
+
+- alias: Set washing machine idle when power off
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washer_power
+      below: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.washer_power
+        below: 5
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_select.washer_status
+          state: Clean
+        - condition: state
+          entity_id: input_select.washer_status
+          state: Finishing
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.washer_status
+        option: Idle

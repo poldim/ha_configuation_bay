@@ -1,0 +1,29 @@
+- alias: Open Curtains a little at 7AM, M-F
+  trigger:
+    platform: time
+    at: 07:00:00
+  condition:
+    condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+    service: scene.turn_on
+    entity_id: scene.open_curtains_a_little_bit
+- alias: Close Curtains at Sunset
+  trigger:
+    platform: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: -2.5
+    above: -3.5
+  condition:
+    condition: time
+    after: '17:00:00'
+    before: '23:00:00'
+  action:
+    service: switch.turn_on
+    entity_id: switch.curtains_close
