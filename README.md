@@ -1,2 +1,4 @@
-# ha_configuation_bay
-poldim
+# Home Assistant Configuration - poldim @ Bay St
+This is my configuration for Home Assitant.
+
+
