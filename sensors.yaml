@@ -83,60 +83,59 @@
 - platform: template
   sensors:
     template_front_deadbolt_status:
-        value_template: >-
-          {%- if is_state("sensor.front_door_deadbolt_alarm_type", "19") -%}
-            {%- if is_state("sensor.front_door_deadbolt_alarm_level", "0") -%}
-              Unlocked by Master Code
-            {%- elif is_state("sensor.front_door_deadbolt_alarm_level", "1") -%}
-              Unlocked by User One
-            {%- elif is_state("sensor.front_door_deadbolt_alarm_level", "2") -%}
-              Unlocked by User Two
-            {%- elif is_state("sensor.front_door_deadbolt_alarm_level", "3") -%}
-              Unlocked by User Three
-            {%- else -%}
-              Unlocked by User {{ sensor.front_door_deadbolt_alarm_level }}
-            {%- endif %}
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "27") %}
-            Auto-Relocked
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "21") %}
-            Manually Locked
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "22") %}
-            Manually Unlocked
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "25") %}
-            From HA GUI
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "161") %}
-            Tampered!
+      value_template: >-
+        {%- if is_state("sensor.front_door_deadbolt_alarm_type", "19") -%}
+          {%- if is_state("sensor.front_door_deadbolt_alarm_level", "0") -%}
+            Unlocked by Master Code
+          {%- elif is_state("sensor.front_door_deadbolt_alarm_level", "1") -%}
+            Unlocked by User One
+          {%- elif is_state("sensor.front_door_deadbolt_alarm_level", "2") -%}
+            Unlocked by User Two
+          {%- elif is_state("sensor.front_door_deadbolt_alarm_level", "3") -%}
+            Unlocked by User Three
           {%- else -%}
-            Unknown Level {{ states.sensor.front_door_deadbolt_alarm_level.state }} Type {{ states.sensor.front_door_deadbolt_alarm_type.state }}
+            Unlocked by User {{ sensor.front_door_deadbolt_alarm_level }}
           {%- endif %}
-        icon_template: >-
-          {%- if is_state("sensor.front_door_deadbolt_alarm_type", "19") -%}
-            mdi:lock-open-outline
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "27") %}
-            mdi:lock-outline
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "21") %}
-            mdi:lock-outline
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "22") %}
-            mdi:lock-open-outline
-          {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "161") %}
-            mdi:alert
-          {%- else -%}
-            mdi:lock-open
-          {%- endif %}
-        friendly_name: 'Front Deadbolt Status'
-    sensors:
-      front_door_deadbolt_status:
-        entity_id: lock.front_door_deadbolt_locked
-        value_template: >-
-          {% set lock_status = states.lock.front_door_deadbolt_locked.attributes.lock_status %}
-          {% set lock_status = lock_status|replace('user 0', 'Master') %}
-          {% set lock_status = lock_status|replace('user 1', 'Dmitriy') %}
-          {% set lock_status = lock_status|replace('user 2', 'Nidhi') %}
-          {% set lock_status = lock_status|replace('user 3', 'Housekeeper') %}
-          {% set lock_status = lock_status|replace('user 4', 'Dog Walker') %}
-          {% set lock_status = lock_status|replace('user 5', 'Emergency') %}
-          {{ lock_status }}
-        friendly_name: 'Last unlocked by'
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "27") %}
+          Auto-Relocked
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "21") %}
+          Manually Locked
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "22") %}
+          Manually Unlocked
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "25") %}
+          From HA GUI
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "161") %}
+          Tampered!
+        {%- else -%}
+          Unknown Level {{ states.sensor.front_door_deadbolt_alarm_level.state }} Type {{ states.sensor.front_door_deadbolt_alarm_type.state }}
+        {%- endif %}
+      icon_template: >-
+        {%- if is_state("sensor.front_door_deadbolt_alarm_type", "19") -%}
+          mdi:lock-open-outline
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "27") %}
+          mdi:lock-outline
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "21") %}
+          mdi:lock-outline
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "22") %}
+          mdi:lock-open-outline
+        {%- elif is_state("sensor.front_door_deadbolt_alarm_type", "161") %}
+          mdi:alert
+        {%- else -%}
+          mdi:lock-open
+        {%- endif %}
+      friendly_name: 'Front Deadbolt Status'
+    front_door_deadbolt_status:
+      entity_id: lock.front_door_deadbolt_locked
+      value_template: >-
+        {% set lock_status = states.lock.front_door_deadbolt_locked.attributes.lock_status %}
+        {% set lock_status = lock_status|replace('user 0', 'Master') %}
+        {% set lock_status = lock_status|replace('user 1', 'Dmitriy') %}
+        {% set lock_status = lock_status|replace('user 2', 'Nidhi') %}
+        {% set lock_status = lock_status|replace('user 3', 'Housekeeper') %}
+        {% set lock_status = lock_status|replace('user 4', 'Dog Walker') %}
+        {% set lock_status = lock_status|replace('user 5', 'Emergency') %}
+        {{ lock_status }}
+      friendly_name: 'Last unlocked by'
     template_front_door:
         value_template: >-
           {%- if is_state("sensor.door01_alarm_level", "255") -%}
