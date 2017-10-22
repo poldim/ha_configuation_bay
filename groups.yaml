@@ -11,7 +11,7 @@ default_view:
     - group.bedroom
     - group.garage
     # - group.environment
-    - group.28toledo
+    - group.toledo
     - group.settings
     - group.people
     - group.deliveries
@@ -50,15 +50,20 @@ people:
 security:
   name: Security
   view: yes
-  entities: group.door_status,group.front_door,lock.front_door_deadbolt_locked,camera.front_door,camera.garage_door,camera.garage_cars
-door_status:
-  name: Door Status
-  view: no
-  entities: sensor.template_front_door,sensor.template_garage_door,sensor.template_lightwell_door
+  entities: group.front_door,group.garage_door,group.lightwell_door,camera.front_door
+
 front_door:
   name: Front Door
   view: no
-  entities: sensor.front_door_deadbolt_status,sensor.template_front_deadbolt_status,lock.front_door_deadbolt_locked
+  entities: sensor.template_front_door,sensor.front_door_deadbolt_status,sensor.template_front_deadbolt_status,lock.front_door_deadbolt_locked
+garage_door:
+  name: Garage Door
+  view: no
+  entities: sensor.template_garage_door,cover.garage_door
+lightwell_door:
+  name: Lightwell Door
+  view: no
+  entities: sensor.template_lightwell_door
 
 deliveries:
   name: Deliveries
@@ -110,7 +115,7 @@ washer:
   entities:
     # - input_select.washer_status
     - sensor.washer_status
-    - switch.washer
+    # - switch.washer
     - sensor.washer_power
 
 # living_room:
@@ -158,11 +163,11 @@ switches:
   entities:
     - switch.light_candle_in_living_room
 
-28toledo:
-  name: AirBNB
+toledo:
+  name: TOLEDO
   view: yes
   # icon: mdi:
-  entities: climate.downstairs_28_toledo,group.28toledo_nest_sensors,group.28toledo_nest_thermostat
+  entities: group.toledo_cameras,climate.downstairs_28_toledo,group.28toledo_nest_sensors,group.28toledo_nest_thermostat
 28toledo_nest_thermostat:
   name: Nest Thermostat
   view: no
@@ -181,6 +186,10 @@ switches:
     - sensor.downstairs_thermostat_28_toledo_operation_mode
     - sensor.downstairs_thermostat_28_toledo_target
     - sensor.downstairs_thermostat_28_toledo_temperature
+toledo_cameras:
+  name: Cameras
+  view: no
+  entities: camera.toledo_front_door,camera.toledo_garage_door,camera.toledo_workshop
 
 settings:
   name: Settings
@@ -196,26 +205,28 @@ settings:
     - automation.lightwell_door_alarm_enabler_open
     - automation.open_curtains_a_little_at_7am_mf
     - automation.set_washing_machine_active_when_power_detected
-    - automation.set_washing_machine_active_when_power_detected_2
     - automation.set_washing_machine_clean
-    - automation.set_washing_machine_clean_2
     - automation.set_washing_machine_finishing_when_power_drops
-    - automation.set_washing_machine_finishing_when_power_drops_2
     - automation.set_washing_machine_idle_when_power_off
-    - automation.set_washing_machine_idle_when_power_off_2
-    - binary_sensor.door01_sensor
     - binary_sensor.doorgarage_sensor
     - binary_sensor.doorlightwell_sensor
+    - binary_sensor.downstairs_thermostat_28_toledo_fan
+    - binary_sensor.downstairs_thermostat_28_toledo_has_leaf
+    - binary_sensor.downstairs_thermostat_28_toledo_is_locked
+    - binary_sensor.downstairs_thermostat_28_toledo_is_using_emergency_heat
+    - binary_sensor.downstairs_thermostat_28_toledo_online
     - camera.front_door
+    - camera.toledo_front_door
+    - camera.toledo_garage_door
+    - camera.toledo_workshop
+    - climate.downstairs_28_toledo
     - cover.garage_door
     - device_tracker.dksiphone
     - device_tracker.dkswatch
     - device_tracker.nidhisiphone
-    - device_tracker.nidhisiphonework
     - device_tracker.nidhiswatch
     - device_tracker.randys_iphone
     - device_tracker.randys_iphone_2
-    - group.28toledo
     - group.28toledo_nest_sensors
     - group.28toledo_nest_thermostat
     - group.all_automations
@@ -231,18 +242,20 @@ settings:
     - group.darksky
     - group.default_view
     - group.deliveries
-    - group.door_status
     - group.environment
     - group.front_door
     - group.garage
+    - group.garage_door
     - group.homelab
     - group.homelab_switches
+    - group.lightwell_door
     - group.people
-    - group.power_consumption
     - group.security
     - group.settings
     - group.speedtest
     - group.switches
+    - group.toledo
+    - group.toledo_cameras
     - group.washer
     - input_select.washer_status
     - lock.front_door_deadbolt_locked
@@ -275,28 +288,13 @@ settings:
     - sensor.deliveries_today
     - sensor.dks_iphone_battery_level
     - sensor.dks_iphone_battery_state
-    - sensor.door01_access_control
-    - sensor.door01_alarm_level
-    - sensor.door01_alarm_type
-    - sensor.door01_burglar
-    - sensor.door01_clock
-    - sensor.door01_sourcenodeid
-    - sensor.doorgarage_access_control
-    - sensor.doorgarage_alarm_level
-    - sensor.doorgarage_alarm_type
-    - sensor.doorgarage_burglar
-    - sensor.doorgarage_clock
-    - sensor.doorgarage_power_management
-    - sensor.doorgarage_sourcenodeid
-    - sensor.doorlightwell_access_control
-    - sensor.doorlightwell_alarm_level
-    - sensor.doorlightwell_alarm_type
-    - sensor.doorlightwell_burglar
-    - sensor.doorlightwell_power_management
-    - sensor.doorlightwell_sourcenodeid
+    - sensor.downstairs_thermostat_28_toledo_humidity
+    - sensor.downstairs_thermostat_28_toledo_hvac_state
+    - sensor.downstairs_thermostat_28_toledo_operation_mode
+    - sensor.downstairs_thermostat_28_toledo_target
+    - sensor.downstairs_thermostat_28_toledo_temperature
     - sensor.fedex
-    - sensor.front_door_deadbolt_alarm_level
-    - sensor.front_door_deadbolt_alarm_type
+    - sensor.front_door_deadbolt_status
     - sensor.garage_door_button
     - sensor.garage_door_button_2
     - sensor.homelab_power
@@ -324,14 +322,42 @@ settings:
     - switch.homelab
     - switch.light_candle_in_living_room
     - switch.washer
+    - updater.updater
     - zone.home
     - zone.nidhis_office
     - zwave.aeotec_zw090_zstick_gen5
-    - zwave.door01
     - zwave.doorgarage
     - zwave.doorlightwell
     - zwave.front_door_deadbolt
+    - group.doorgarage
+    - group.doorlightwell
 
+
+
+
+doorgarage:
+  name: doorgarage
+  view: no
+  entities:
+    - sensor.doorgarage_access_control
+    - sensor.doorgarage_alarm_level
+    - sensor.doorgarage_alarm_type
+    - sensor.doorgarage_burglar
+    - sensor.doorgarage_clock
+    - sensor.doorgarage_power_management
+    - sensor.doorgarage_sourcenodeid
+
+
+doorlightwell:
+  name: doorlightwell
+  view: no
+  entities:
+    - sensor.doorlightwell_access_control
+    - sensor.doorlightwell_alarm_level
+    - sensor.doorlightwell_alarm_type
+    - sensor.doorlightwell_burglar
+    - sensor.doorlightwell_power_management
+    - sensor.doorlightwell_sourcenodeid
 
 
 

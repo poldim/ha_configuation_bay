@@ -150,20 +150,16 @@
         friendly_name: 'Front Door'
     template_garage_door:
         value_template: >-
-          {%- if is_state("sensor.door.garage", "255") -%}
-              {%- if is_state("sensor.door.garage", "3") -%}
-                Tampered
-              {%- else -%}
-                Open
-              {%- endif %}
-          {%- else -%}
+          {%- if is_state("sensor.doorgarage_access_control", "23") -%}
             Closed
+          {%- else -%}
+            Open
           {%- endif %}
         friendly_name: 'Garage Door'
     template_lightwell_door:
         value_template: >-
-          {%- if is_state("sensor.door.lightwell", "23") -%}
-                Closed
+          {%- if is_state("sensor.doorlightwell_access_control", "23") -%}
+            Closed
           {%- else -%}
             Open
           {%- endif %}

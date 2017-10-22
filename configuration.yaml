@@ -1,7 +1,7 @@
 homeassistant:
   name: BAY ST
-  latitude: !secret latitude
-  longitude: !secret longitude
+  latitude: !secret bay-st_latitude
+  longitude: !secret bay-st_longitude
   elevation: 0
   unit_system: imperial
   time_zone: America/Los_Angeles
@@ -86,7 +86,17 @@ sun: # Track the sun
 config: #configuration panel
 # logentries:
 #   token: !secret logentries_token
+
+
 ios:
+  push:
+    categories:
+      - name: garage1
+        identifier: 'GARAGE1'
+        actions:
+          - identifier: 'CLOSE_GARAGE' ## this must point to an action ##
+            title: 'Close the Garage Door'
+
 
 # # Weather Prediction
 # sensor:
@@ -103,9 +113,9 @@ zwave:
   # device_config: !include zwave_device_config.yaml
   # new_entity_ids: true
 
-# nest:
-#   client_id: !secret nest_client_id
-#   client_secret: !secret nest_client_secret
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
 
 wemo:
   static:
@@ -120,18 +130,25 @@ tts:
 
 zone 1:
   name: Home
-  latitude: !secret latitude
-  longitude: !secret longitude
+  latitude: !secret bay-st_latitude
+  longitude: !secret bay-st_longitude
   radius: 100
   icon: mdi:castle
   # icon: mdi:account-multiple
 
 zone 2:
   name: Nidhi's Office
-  latitude: n-office_latitude
-  longitude: n-office_longitude
+  latitude: !secret n-office_latitude
+  longitude: !secret n-office_longitude
   radius: 100
   icon: mdi:worker
+
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+
+
+
 
 
 # usps:
@@ -142,7 +159,7 @@ zone 2:
 
 cover:
   - platform: mqtt
-    name: Garage Door
+    name: Garage Door MQTT-WEMOS
     friendly_name: Garage
     state_topic: "garage/door"
     command_topic: "garage/button"
