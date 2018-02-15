@@ -136,7 +136,10 @@
       data:
         title: "Washer"
         message: "Will be done soon"
-
+    - service: notify.ios_nmsphone
+      data:
+        title: "Washer"
+        message: "Will be done soon"
 
 
 
