@@ -11,12 +11,12 @@ default_view:
     - group.bedroom
     - group.garage
     # - group.environment
-    - group.toledo
+    # - group.toledo
     - group.settings
     - group.people
     - group.deliveries
     # - device_tracker.dksiphone
-    # - device_tracker.nidhisiphone
+    # - device_tracker.nmsiphone
     - camera.front_door
     - camera.usps_mail
     - group.doors
@@ -36,9 +36,9 @@ people:
   entities:
     - device_tracker.dksiphone
     - device_tracker.dkswatch
-    - device_tracker.nidhiswatch
-    - device_tracker.nidhisiphone
-    - device_tracker.nidhisiphonework
+    - device_tracker.nmswatch
+    - device_tracker.nmsiphone
+    - device_tracker.nmsiphonework
 # power_consumption:
 #   name: Power Consumption
 #   view: no
@@ -55,11 +55,12 @@ security:
 front_door:
   name: Front Door
   view: no
-  entities: sensor.template_front_door,sensor.front_door_deadbolt_status,sensor.template_front_deadbolt_status,lock.front_door_deadbolt_locked
+  entities: sensor.template_front_door
+  #,sensor.front_door_deadbolt_status,sensor.template_front_deadbolt_status,lock.front_door_deadbolt_locked
 garage_door:
   name: Garage Door
   view: no
-  entities: sensor.template_garage_door,cover.garage_door
+  entities: sensor.template_garage_door,cover.garage_door_control
 lightwell_door:
   name: Lightwell Door
   view: no
@@ -79,7 +80,7 @@ deliveries:
 bedroom:
   name: Bedroom
   view: yes
-  entities: group.bedroom_automations,group.bedroom_curtains,group.bedroom_fan
+  entities: group.bedroom_automations,group.bedroom_curtains,group.bedroom_fan,group.alarmclock
 bedroom_automations:
   name: Automations
   view: no
@@ -89,12 +90,20 @@ bedroom_curtains:
   name: Curtains
   view: no
   control: hidden
-  entities: script.curtains_open,script.curtains_close,script.curtains_stop,scene.open_curtains_a_little_bit
+  entities: cover.bedroom_curtains,script.curtains_open,script.curtains_close,script.curtains_stop,scene.open_curtains_a_little_bit
 bedroom_fan:
   name: Fan
   view: no
   control: hidden
   entities: script.fan_onoff,script.fan_speed,scene.fan_rotation,script.fan_timer,scene.fan_ion
+alarmclock:
+  name: Curtin Alarm Clock
+  entities:
+    - sensor.alarm_time
+    - input_number.alarmhour
+    - input_number.alarmminutes
+    - input_boolean.alarmweekday
+    - input_boolean.alarmweekend
 
 garage:
   name: Garage
@@ -109,6 +118,7 @@ homelab:
     - group.speedtest
     - group.homelab_switches
     - sensor.homelab_power
+    - sensor.mqtt_homelab_power
 washer:
   name: Washing Machine
   view: no
@@ -117,6 +127,27 @@ washer:
     - sensor.washer_status
     # - switch.washer
     - sensor.washer_power
+    - sensor.mqtt_washer_power
+washer_details:
+  name: Washer Details
+  view: no
+  entities:
+    - switch.washer
+    - sensor.washer_current
+    - sensor.washer_energy
+    - sensor.washer_power
+    - sensor.washer_status
+    - sensor.washer_voltage
+homelab_details:
+  name: HomeLab Details
+  view: no
+  entities:
+    - switch.homelab
+    - sensor.homelab_current
+    - sensor.homelab_energy
+    - sensor.homelab_power
+    - sensor.homelab_status
+    - sensor.homelab_voltage
 
 # living_room:
 #   name: Living Room
@@ -163,76 +194,61 @@ switches:
   entities:
     - switch.light_candle_in_living_room
 
-toledo:
-  name: TOLEDO
+# toledo:
+#   name: TOLEDO
+#   view: yes
+#   # icon: mdi:
+#   entities: group.toledo_cameras,climate.downstairs_28_toledo,group.28toledo_nest_sensors,group.28toledo_nest_thermostat
+# 28toledo_nest_thermostat:
+#   name: Nest Thermostat
+#   view: no
+#   entities:
+#     - binary_sensor.downstairs_thermostat_28_toledo_fan
+#     - binary_sensor.downstairs_thermostat_28_toledo_has_leaf
+#     - binary_sensor.downstairs_thermostat_28_toledo_is_locked
+#     - binary_sensor.downstairs_thermostat_28_toledo_is_using_emergency_heat
+#     - binary_sensor.downstairs_thermostat_28_toledo_online
+# 28toledo_nest_sensors:
+#   name: Nest Sensors
+#   view: no
+#   entities:
+#     - sensor.downstairs_thermostat_28_toledo_humidity
+#     - sensor.downstairs_thermostat_28_toledo_hvac_state
+#     - sensor.downstairs_thermostat_28_toledo_operation_mode
+#     - sensor.downstairs_thermostat_28_toledo_target
+#     - sensor.downstairs_thermostat_28_toledo_temperature
+# toledo_cameras:
+#   name: Cameras
+#   view: no
+#   entities: camera.toledo_front_door,camera.toledo_garage_door,camera.toledo_workshop
+
+
+zwave_batteries:
+  name: Zwave Battery Status
+  view: no
+  entities:
+    - sensor.zwave_battery_door_front
+    - sensor.zwave_battery_door_lightwell
+
+
+
+testing:
+  name: TROUBLESHOOTING
   view: yes
-  # icon: mdi:
-  entities: group.toledo_cameras,climate.downstairs_28_toledo,group.28toledo_nest_sensors,group.28toledo_nest_thermostat
-28toledo_nest_thermostat:
-  name: Nest Thermostat
-  view: no
-  entities:
-    - binary_sensor.downstairs_thermostat_28_toledo_fan
-    - binary_sensor.downstairs_thermostat_28_toledo_has_leaf
-    - binary_sensor.downstairs_thermostat_28_toledo_is_locked
-    - binary_sensor.downstairs_thermostat_28_toledo_is_using_emergency_heat
-    - binary_sensor.downstairs_thermostat_28_toledo_online
-28toledo_nest_sensors:
-  name: Nest Sensors
-  view: no
-  entities:
-    - sensor.downstairs_thermostat_28_toledo_humidity
-    - sensor.downstairs_thermostat_28_toledo_hvac_state
-    - sensor.downstairs_thermostat_28_toledo_operation_mode
-    - sensor.downstairs_thermostat_28_toledo_target
-    - sensor.downstairs_thermostat_28_toledo_temperature
-toledo_cameras:
-  name: Cameras
-  view: no
-  entities: camera.toledo_front_door,camera.toledo_garage_door,camera.toledo_workshop
+  icon: mdi:skull
+  entities: sensor.mqtt_homelab_power, sensor.mqtt_washer_power
+
+
 
 settings:
   name: Settings
   view: yes
   icon: mdi:settings
   entities:
-    - automation.close_curtains_at_sunset
-    - automation.front_door_alarm_disabler_closed
-    - automation.front_door_alarm_enabler_open
-    - automation.garage_door_alarm_disabler_closed
-    - automation.garage_door_alarm_enabler_open
-    - automation.lightwell_door_alarm_disabler_closed
-    - automation.lightwell_door_alarm_enabler_open
-    - automation.open_curtains_a_little_at_7am_mf
-    - automation.set_washing_machine_active_when_power_detected
-    - automation.set_washing_machine_clean
-    - automation.set_washing_machine_finishing_when_power_drops
-    - automation.set_washing_machine_idle_when_power_off
-    - binary_sensor.doorgarage_sensor
-    - binary_sensor.doorlightwell_sensor
-    - binary_sensor.downstairs_thermostat_28_toledo_fan
-    - binary_sensor.downstairs_thermostat_28_toledo_has_leaf
-    - binary_sensor.downstairs_thermostat_28_toledo_is_locked
-    - binary_sensor.downstairs_thermostat_28_toledo_is_using_emergency_heat
-    - binary_sensor.downstairs_thermostat_28_toledo_online
-    - camera.front_door
-    - camera.toledo_front_door
-    - camera.toledo_garage_door
-    - camera.toledo_workshop
-    - climate.downstairs_28_toledo
-    - cover.garage_door
-    - device_tracker.dksiphone
-    - device_tracker.dkswatch
-    - device_tracker.nidhisiphone
-    - device_tracker.nidhiswatch
-    - device_tracker.randys_iphone
-    - device_tracker.randys_iphone_2
-    - group.28toledo_nest_sensors
-    - group.28toledo_nest_thermostat
+    - group.alarmclock
     - group.all_automations
     - group.all_covers
     - group.all_devices
-    - group.all_locks
     - group.all_scripts
     - group.all_switches
     - group.bedroom
@@ -242,11 +258,14 @@ settings:
     - group.darksky
     - group.default_view
     - group.deliveries
+    - group.doorfront
+    - group.doorlightwell
     - group.environment
     - group.front_door
     - group.garage
     - group.garage_door
     - group.homelab
+    - group.homelab_details
     - group.homelab_switches
     - group.lightwell_door
     - group.people
@@ -257,11 +276,27 @@ settings:
     - group.toledo
     - group.toledo_cameras
     - group.washer
-    - input_select.washer_status
-    - lock.front_door_deadbolt_locked
-    - scene.fan_ion
-    - scene.fan_rotation
-    - scene.open_curtains_a_little_bit
+    - group.washer_details
+    - group.zwave_batteries
+    - automation.announce_package_delivery
+    - automation.close_curtains_at_sunset
+    - automation.front_door_alarm_disabler_closed
+    - automation.front_door_alarm_enabler_open
+    - automation.garage_door_alarm_disabler_closed
+    - automation.garage_door_alarm_enabler_open
+    - automation.ios_actionable_notification_for_garage_door
+    - automation.lightwell_door_alarm_disabler_closed
+    - automation.lightwell_door_alarm_enabler_open
+    - automation.notify_ios_garage
+    - automation.notify_ios_washer_finished
+    - automation.open_curtains_a_little_at_7am_mf
+    - automation.set_washing_machine_active_when_power_detected
+    - automation.set_washing_machine_clean
+    - automation.set_washing_machine_finishing_when_power_drops
+    - automation.set_washing_machine_idle_when_power_off
+    - automation.update_available_notifications
+    - automation.wake_me_up_with_curtains_on_weekdays
+    - automation.wake_me_up_with_curtains_on_weekend_days
     - script.bedroom_sleep
     - script.bedroom_wake
     - script.curtains_close
@@ -278,74 +313,9 @@ settings:
     - script.greeting
     - script.lightwell_door_alarm
     - script.test_alarm
-    - sensor.dark_sky_daily_high_temperature
-    - sensor.dark_sky_daily_low_temperature
-    - sensor.dark_sky_daily_summary
-    - sensor.dark_sky_hourly_summary
-    - sensor.dark_sky_summary
-    - sensor.dark_sky_temperature
-    - sensor.date__time
-    - sensor.deliveries_today
-    - sensor.dks_iphone_battery_level
-    - sensor.dks_iphone_battery_state
-    - sensor.downstairs_thermostat_28_toledo_humidity
-    - sensor.downstairs_thermostat_28_toledo_hvac_state
-    - sensor.downstairs_thermostat_28_toledo_operation_mode
-    - sensor.downstairs_thermostat_28_toledo_target
-    - sensor.downstairs_thermostat_28_toledo_temperature
-    - sensor.fedex
-    - sensor.front_door_deadbolt_status
-    - sensor.garage_door_button
-    - sensor.garage_door_button_2
-    - sensor.homelab_power
-    - sensor.ohm_hour
-    - sensor.packages_in_transit
-    - sensor.speedtest_download
-    - sensor.speedtest_ping
-    - sensor.speedtest_upload
-    - sensor.template_front_deadbolt_status
-    - sensor.template_front_door
-    - sensor.template_garage_door
-    - sensor.template_lightwell_door
-    - sensor.ups
-    - sensor.washer_power
-    - sensor.washer_status
-    - sun.sun
-    - switch.curtains_close
-    - switch.curtains_open
-    - switch.curtains_stop
-    - switch.fan_ion
-    - switch.fan_onoff
-    - switch.fan_rotation
-    - switch.fan_speed
-    - switch.fan_timer
-    - switch.homelab
-    - switch.light_candle_in_living_room
-    - switch.washer
-    - updater.updater
-    - zone.home
-    - zone.nidhis_office
-    - zwave.aeotec_zw090_zstick_gen5
-    - zwave.doorgarage
-    - zwave.doorlightwell
-    - zwave.front_door_deadbolt
-    - group.doorgarage
-    - group.doorlightwell
-
-
-
-
-doorgarage:
-  name: doorgarage
-  view: no
-  entities:
-    - sensor.doorgarage_access_control
-    - sensor.doorgarage_alarm_level
-    - sensor.doorgarage_alarm_type
-    - sensor.doorgarage_burglar
-    - sensor.doorgarage_clock
-    - sensor.doorgarage_power_management
-    - sensor.doorgarage_sourcenodeid
+    - sensor.garage_door_control
+    - sensor.garage_door_relay
+    - sensor.garage_door_status
 
 
 doorlightwell:
@@ -361,6 +331,25 @@ doorlightwell:
 
 
 
+
+doorfront:
+  name: doorfront
+  view: no
+  entities:
+    - sensor.template_front_door
+    # - sensor.doorfront_access_control
+    # - sensor.doorfront_alarm_level
+    # - sensor.doorfront_alarm_type
+    # - sensor.doorfront_burglar
+    # - sensor.doorfront_emergency
+    # - sensor.doorfront_sourcenodeid
+    # - sensor.doorfront_system
+    - sensor.doorfront_alarm_type
+    - sensor.doorfront_alarm_level
+    - binary_sensor.doorfront_sensor
+    - sensor.doorfront_sourcenodeid
+    - sensor.doorfront_access_control
+    - sensor.doorfront_burglar
 
 # default_view:
 #  view: yes

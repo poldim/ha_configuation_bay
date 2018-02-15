@@ -1,116 +1,145 @@
-# - alias: Announce package delivery
-#   trigger:
-#     platform: state
-#     entity_id: sensor.deliveries_today
-#   condition:
-#   - condition: template
-#     value_template: '{{trigger.to_state.state|int > trigger.from_state.state|int}}'
-#   - condition: state
-#     entity_id: group.all_devices
-#     state: home
-#   action:
-#   # - service: script.turn_on
-#   #   entity_id: script.play_tts
-#   #   data_template:
-#   #     variables:
-#   #       message: A package was just delivered.
-#   - service: notify.TEXT_DK
-#     data:
-#       message: 'Package delivered'
+- alias: Announce package delivery
+  trigger:
+    platform: state
+    entity_id: sensor.deliveries_today
+  condition:
+  - condition: template
+    value_template: '{{trigger.to_state.state|int > trigger.from_state.state|int}}'
+  - condition: state
+    entity_id: group.all_devices
+    state: home
+  action:
+  - service: tts.google_say
+    data:
+      entity_id: media_player.home_group
+      message: 'Package delivered'
+  - service: notify.TEXT_DK
+    data:
+      message: 'Package delivered'
+
+
+- alias: Update Available Notifications
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: state
+      entity_id: updater.updater
+  action:
+    - service: notify.ios_dksphone
+      data:
+        title: "Version control"
+        message: 'Update for Home Assistant is available.'
+    - service: notify.TEXT_DK
+      data:
+        message: 'Update for Home Assistant is available'
+
+- alias: Notify iOS Garage
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: state
+      entity_id: cover.garage_door
+      from: 'closed'
+      to: 'open'
+  # condition:
+  # - condition: template
+  #   value_template: '{{ (as_timestamp(now()) - as_timestamp(states.sensor.garage_door_control.last_changed)) > 10 }}'
+          #   - condition: template
+          #     value_template: '{{ as_timestamp(now()) - as_timestamp(states(switch.sensor.garage_door_control.last_updated)) < 10 }}'
+  action:
+    - service: notify.ios_dksphone
+      data:
+        title: "Garage Alert"
+        message: "GARAGE IS OPEN"
+        data:
+          push:
+            badge: 0
+            category: 'garage1'
+
+
+- alias: iOS Actionable Notification for Garage Door
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CLOSE_GARAGE
+  action:
+    - service: cover.close_cover
+      entity_id: cover.garage_door
+
 #
-#
-# # - alias: Notify iOS app
-# #   trigger:
-# #     platform: state
-# #     entity_id: sensor.template_garage_door
-# #     from: Closed
-# #     to: Open
-# #   action:
-# #     service: notify.ios_dk-phone
-# #     data:
-# #       message: "TEST     Notify iOS app    TEST"
-# #       data:
-# #         push:
-# #           badge: 5
-# - alias: Notify iOS app
-#   trigger:
-#     platform: state
-#     entity_id: sensor.template_garage_door
-#     from: Closed
-#     to: Open
-#   action:
-#     service: notify.ios_dk-phone
-#     data:
-#       message: "Something happened at home!"
+# #If the garage has been open for at least 15 minutes, send a notification when it is finally closed
+#   - alias: Notify when garage door is closed after an alert
+#     trigger:
+#       platform: state
+#       entity_id: binary_sensor.garage_door_open_for_15mins
+#       from: 'on'
+#       to: 'off'
+#     action:
+#     - service: notify.telegramBotGroup
 #       data:
-#         push:
-#           badge: 5
-#         subtitle: "Subtitle goes here"
+#         message: '{{now().strftime("%H:%M:%S %Y-%m-%d")}}: Garage has been closed.'
 #
-        # notify:
-        #   - name: NOTIFIER_NAME
-        #     platform: group
-        #     services:
-        #       - service: dk-phone
-        #       - service: nm-phone
-#
-#
-# - alias: 'Update Available Notifications'
-#   trigger:
-#     platform: state
-#     entity_id: updater.updater
-#   action:
-#     service: notify.notify
-#     data:
-#       message: 'Update for Home Assistant is available.'
+# #Turn the alert off when a telegram message of /ackGarage is received.
+#   - alias: 'Telegram bot to ack the garageDoor being open'
+#     hide_entity: true
+#     trigger:
+#       platform: event
+#       event_type: telegram_command
+#       event_data:
+#         command: '/ackGarage'
+#     action:
+#     - service: alert.turn_off
+#       entity_id: alert.garage_door
 
 
-  # - alias: Notify iOS Garage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  # - alias: Notify iOS WEMO TEST
   #   initial_state: true
-  #   hide_entity: false
+  #   hide_entity: true
   #   trigger:
-  #     - platform: time
-  #       at: '22:12:00' #change this to actual trigger
-  #   # condition:
-  #   #   condition: state
-  #   #   entity_id: cover.garage_door
-  #   #   state: open
+  #     - platform: state
+  #       entity_id: switch.light_candle_in_living_room
+  #       from: 'off'
+  #       to: 'on'
+  #   condition:
+  #   - condition: template
+  #     value_template: >
+  #       {{ (as_timestamp(now()) - as_timestamp(states.switch.light_candle_in_living_room.last_changed)) > 10 }}
   #   action:
-  #       service: notify.ios_dkphone
+  #   - service: notify.ios_dksphone
+  #   # - service: notify.both_phones
+  #     data:
+  #       title: "Switch Alert Test"
+  #       message: "SWITCH IS ON - TESTY TEST"
   #       data:
-  #         title: "Garage Alert" #customizable
-  #         message: "Garage is Open" #customizable
-  #         data:
-  #           push:
-  #             badge: 0 # this will remove the badge/app icon number
-  #             category: 'GARAGE1'
-
-  # - alias: iOS app notification action garage1
+  #         push:
+  #           badge: 0
+  #           # sound: <SOUND FILE HERE>
+  #           category: 'wemo1' # Needs to match the top level identifier you used in the ios configuration
+  #
+  #
+  # - alias: iOS Actionable Notification for WEMO TEST
   #   initial_state: true
-  #   hide_entity: false
+  #   hide_entity: true
   #   trigger:
   #     platform: event
   #     event_type: ios.notification_action_fired
   #     event_data:
-  #       actionName: CLOSE_GARAGE
+  #       actionName: WEMO1_ON
   #   action:
-  #     entity_id: cover.garage_door
-  #     service: cover.close_cover
-  #
-  # - alias: "Garage Notification iOS"
-  #   initial_state: true
-  #   hide_entity: false
-  #   trigger:
-  #     - platform: state
-  #       entity_id: cover.garage_door
-  #       from: 'closed'
-  #       to: 'open'
-  #   action:
-  #     - service: notify.ios_dkphone
-  #       data:
-  #         message: "Garage is Open"
-  #         data:
-  #           push:
-  #            sound: "US-EN-Daisy-Garage-Door-Open.wav"
-  #            badge: 0
-  #            category: 'GARAGE1'
+  #     - service: switch.turn_off
+  #       entity_id: switch.light_candle_in_living_room

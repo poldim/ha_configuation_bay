@@ -1,6 +1,4 @@
-- platform: ios
-# - platform: pushbullet
-#   api_key: !secret pushbullet_api_key
+# - platform: ios
 - name: TEXT_DK
   platform: smtp
   server: smtp.gmail.com
@@ -10,6 +8,7 @@
   username: !secret sender_email
   password: !secret sender_email_password
   recipient: !secret dk_sms_email
+
 - name: TEXT_NM
   platform: smtp
   server: smtp.gmail.com
@@ -19,3 +18,33 @@
   username: !secret sender_email
   password: !secret sender_email_password
   recipient: !secret nm_sms_email
+
+- name: both_phones
+  platform: group
+  services:
+    - service: ios_dksphone
+    - service: ios_nmsphone
+
+# #Setup Telegram to send notifications
+# - platform: telegram
+#   name: telegramBot1 #ToledoUpperBot
+#   api_key: 516722763:AAE3xAtDdcXvApom61OZxAV2B2D11TO_osc
+#   chat_id: 529705972
+# # - platform: telegram
+# #   name: telegramBot2 #ToledoLowerBot
+# #   api_key: 488081554:AAH950pvsU01LRIv2RveU-uNwtf_w22FhPk
+# #   chat_id: <chatID2>
+# - platform: telegram
+#   name: telegramBot3 #PoldimBot
+#   api_key: 526655193:AAFqXZxGQQdCKdVM_XMRKljVyQnul7Z842Y
+#   chat_id: 529705972
+# # - platform: telegram
+# #   name: telegramBot4
+# #   api_key: <apiKey>
+# #   chat_id: <chatID3>
+# - name: telegramBotGroup
+#   platform: group
+#   services:
+#     - service: telegrambot1
+#     # - service: telegrambot2
+#     - service: telegrambot3

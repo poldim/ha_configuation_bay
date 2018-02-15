@@ -27,3 +27,50 @@
   action:
     service: switch.turn_on
     entity_id: switch.curtains_close
+
+- alias: "Wake me up with curtains on weekdays"
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarmweekend
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.alarmweekday
+      state: 'on'
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: template
+      value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+  action:
+    service: scene.turn_on
+    entity_id: scene.open_curtains_a_little_bit
+
+- alias: "Wake me up with curtains on weekend days"
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarmweekend
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.alarmweekday
+      state: 'off'
+    - condition: time
+      weekday:
+        - sat
+        - sun
+    - condition: template
+      value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+  action:
+    service: scene.turn_on
+    entity_id: scene.open_curtains_a_little_bit

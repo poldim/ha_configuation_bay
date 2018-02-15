@@ -36,7 +36,7 @@
   trigger:
     - platform: numeric_state
       entity_id: sensor.washer_power
-      below: 5
+      below: 2
   condition:
     condition: and
     conditions:
@@ -84,13 +84,13 @@
   trigger:
     - platform: numeric_state
       entity_id: sensor.washer_power
-      below: 5
+      below: 2
   condition:
     condition: and
     conditions:
       - condition: numeric_state
         entity_id: sensor.washer_power
-        below: 5
+        below: 2
       - condition: or
         conditions:
         - condition: state
@@ -104,3 +104,69 @@
       data:
         entity_id: input_select.washer_status
         option: Idle
+
+
+- alias: Notify iOS Washer Done Soon
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.washer_power
+      above: 900
+      for:
+        seconds: 1
+    # - platform: state
+    #   entity_id: device_tracker.dksiphone
+    #   to: 'home'
+    #   for:
+    #     minutes: 2
+    # - platform: state
+    #   entity_id: device_tracker.nmsiphone
+    #   to: 'home'
+    #   for:
+    #     minutes: 2
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.people
+        state: 'home'
+  action:
+    - service: notify.ios_dksphone
+      data:
+        title: "Washer"
+        message: "Will be done soon"
+
+
+
+
+- alias: Notify iOS Washer Finished
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: state
+      entity_id: sensor.washer_status
+      to: Clean
+      for:
+        minutes: 1
+  condition:
+    condition: and
+    conditions:
+      # - condition: time
+      #   before: '22:30:00'
+      #   after: '08:29:00'
+      - condition: state
+        entity_id: group.people
+        state: 'home'
+      - condition: state
+        entity_id: input_select.washer_status
+        state: Clean
+  action:
+    - service: notify.both_phones
+      data:
+        title: "Washer"
+        message: "Move clothes into dryer"
+    - service: tts.google_say
+      data:
+        entity_id: media_player.home_group
+        message: "Move clothes into dryer"
