@@ -137,8 +137,10 @@
     sequence:
       - service: tts.google_say
         data:
-          entity_id: media_player.living_room
+          entity_id: media_player.home_group
           message: Hello from Home Assistant
+
+
 # bedtime_ben: !include scripts/bedtime_ben.yaml
 # bedtime_cailin: !include scripts/bedtime_cailin.yaml
 # morning: !include scripts/morning.yaml

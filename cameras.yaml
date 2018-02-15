@@ -4,23 +4,4 @@
     name: Front Door
     input: !secret camera_url_front_door
     extra_arguments: -pred 1 -q:v 2
-
-
-
-  - platform: mjpeg
-    mjpeg_url: !secret toledo_camera_url_front_door
-    name: Toledo Front Door
-    username: !secret camera_username
-    password: !secret camera_password
-#CAMERA 2
-  - platform: mjpeg
-    mjpeg_url: !secret toledo_camera_url_garage_door
-    name: Toledo Garage Door
-    username: !secret camera_username
-    password: !secret camera_password
-#CAMERA 3
-  - platform: mjpeg
-    mjpeg_url: !secret toledo_camera_url_garage_workshop
-    name: Toledo Workshop
-    username: !secret camera_username
-    password: !secret camera_password
+    

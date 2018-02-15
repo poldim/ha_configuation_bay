@@ -1,5 +1,5 @@
   - platform: unifi
-    host: !secret unraid_ip
+    host: !secret unifi_ip_lan
     port: 8443
     username: !secret unifi_username
     password: !secret unifi_password

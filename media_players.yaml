@@ -1,29 +1,34 @@
 ####MEDIA PLAYERS####
-  # - platform: cast
-  - platform: yamaha
-    host: 192.168.3.50
-    source_ignore:
-      - "Rhapsody"
-      - "SiriusXM"
-      - "Pandora"
-      - "Spotify"
-      - "NET RADIO"
-      - "SERVER"
-      # - "AirPlay"
-      - "iPod (USB)"
-      - "TUNER"
-      - "HDMI5"
-      - "AV1"
-      - "AV2"
-      - "AV3"
-      - "AV4"
-      - "AV5"
-      - "AV6"
-      - "AUDIO1"
-      - "AUDIO2"
-      # - "V-AUX"
-    source_names:
-      HDMI1: "Nexus Player"
-      HDMI2: "XBOX"
-      HDMI3: "ChromeCast"
-      HDMI4: "Fire TV"
+  - platform: cast
+    host: 192.168.3.90
+  - platform: cast
+    host: 192.168.3.95
+
+
+  # - platform: yamaha
+  #   host: 192.168.3.50
+  #   source_ignore:
+  #     - "Rhapsody"
+  #     - "SiriusXM"
+  #     - "Pandora"
+  #     - "Spotify"
+  #     - "NET RADIO"
+  #     - "SERVER"
+  #     # - "AirPlay"
+  #     - "iPod (USB)"
+  #     - "TUNER"
+  #     - "HDMI5"
+  #     - "AV1"
+  #     - "AV2"
+  #     - "AV3"
+  #     - "AV4"
+  #     - "AV5"
+  #     - "AV6"
+  #     - "AUDIO1"
+  #     - "AUDIO2"
+  #     # - "V-AUX"
+  #   source_names:
+  #     HDMI1: "Nexus Player"
+  #     HDMI2: "XBOX"
+  #     HDMI3: "ChromeCast"
+  #     HDMI4: "Fire TV"

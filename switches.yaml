@@ -28,6 +28,48 @@
       friendly_name: Fan Ion
       command_on: 'JgBoACoOKg0OKSoNKg0PKSoNDikOKQ8oDykOAAEFKw0qDQ4pKg0qDQ8pKg0OKQ4pDygPKQ4AAQUqDioNDikqDSoNDykqDQ4pDikPKA8pDgABBSoOKg0OKSoNKg0PKSoNDikOKQ8oDykOAA0F'
 
+# - platform: tuya
+#   name: Washer
+#   host: 192.168.3.138
+#   local_key: cET7nrXx83igNwGF
+#   device_id: 02200194dc4f22138a8e
+#   # id: //switch id. Remove line if only one switch
+# - platform: tuya
+#   name: Laptop
+#   host: 192.168.3.139
+#   local_key: cET7nrXx83igNwGF
+#   device_id: 02200194dc4f22138784
+#   # id: //switch id. Remove line if only one switch
+
+
+
+- platform: mqtt
+  name: "Washer"
+  state_topic: "homeassistant/outlets/washer/RESULT"
+  command_topic: "homeassistant/outlets/washer/cmnd/POWER"
+  availability_topic: "homeassistant/outlets/washer/LWT"
+  value_template: "{{value_json.POWER}}"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  # retain: true
+
+- platform: mqtt
+  name: "HomeLab"
+  state_topic: "homeassistant/outlets/homelab/RESULT"
+  command_topic: "homeassistant/outlets/homelab/cmnd/POWER"
+  availability_topic: "homeassistant/outlets/homelab/LWT"
+  value_template: "{{value_json.POWER}}"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  # retain: true
+
+
 
 
 

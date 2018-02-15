@@ -13,16 +13,16 @@ http:
   base_url: !secret base_url
   # ssl_certificate: /etc/letsencrypt/live/hass.example.com/fullchain.pem
   # ssl_key: /etc/letsencrypt/live/hass.example.com/privkey.pem
-  # cors_allowed_origins:
-  #   - https://google.com
-  #   - https://home-assistant.io
+  cors_allowed_origins:
+    - https://google.com
+    - https://home-assistant.io
   # use_x_forwarded_for: True
-  # trusted_networks:
-  #   - 127.0.0.1
-  #   - 192.168.1.0/24
-  #   - 192.168.2.0/24
-  #   - 192.168.3.0/24
-  #   - 192.168.4.0/24
+  trusted_networks:
+    - 127.0.0.1
+    - 192.168.1.0/24
+    - 192.168.2.0/24
+    - 192.168.3.0/24
+    - 192.168.4.0/24
   # #  - 2001:DB8:ABCD::/48
   ip_ban_enabled: True
   login_attempts_threshold: 3
@@ -35,6 +35,8 @@ mqtt:
   keepalive: 60
   username: !secret mqtt_username
   password: !secret mqtt_password
+  discovery: true
+  discovery_prefix: homeassistant
   # protocol: 3.1
 
 ####################################################
@@ -52,6 +54,7 @@ device_tracker: !include device_trackers.yaml
 scene: !include scenes.yaml
 script: !include scripts.yaml
 automation: !include_dir_merge_list ./automation
+alert: !include_dir_merge_list ./alerts
 
 # alexa: !include alexa.yaml
 # light: !include lights.yaml
@@ -61,7 +64,7 @@ automation: !include_dir_merge_list ./automation
 # input_select: !include input_select.yaml
 # shell_command: !include shell_commands.yaml
 # remote: !include remote.yaml
-# media_player: !include media_players.yaml
+media_player: !include media_players.yaml
 
 
 ####################################################
@@ -70,18 +73,21 @@ automation: !include_dir_merge_list ./automation
 #                                                  #
 ####################################################
 #introduction: # Show links to resources in log and frontend
-frontend: # Enables the frontend
+frontend:  !include frontend.yaml # Enables the frontend
 updater: # Checks for available updates
+  include_used_components: true
 discovery: # Discover some devices automatically
 conversation: # Allows you to issue voice commands from the frontend in enabled browsers
 history: # Enables support for tracking state changes over time.
-# logbook: # View all events in a logbook
+logbook: # View all events in a logbook
 recorder:
-  purge_interval: 5
+  purge_interval: 50
   purge_keep_days: 180
-  db_url: mysql://hass:DB_PASSWORD@192.168.1.100/homeassistant
-# logger:
-  # default: info
+  db_url: !secret recorder_db_url
+logger:
+  default: error
+#   logs:
+#     homeassistant.components.mqtt: debug
 sun: # Track the sun
 config: #configuration panel
 # logentries:
@@ -91,42 +97,63 @@ config: #configuration panel
 ios:
   push:
     categories:
-      - name: garage1
-        identifier: 'GARAGE1'
+      - name: Garage Door Notify
+        identifier: 'garage1'
         actions:
           - identifier: 'CLOSE_GARAGE' ## this must point to an action ##
-            title: 'Close the Garage Door'
-
-
-# # Weather Prediction
-# sensor:
-#   platform: yr
-
-
-# modbus:
-#   type: tcp
-#   host: 192.168.3.80
-#   port: 502
+            title: 'Close the Garage'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+      # - name: Wemo 1 Action Notify
+      #   identifier: 'wemo1'
+      #   actions:
+      #     - identifier: 'WEMO1_ON' ## this must point to an action ##
+      #       title: 'Turn off Wemo 1'
+      #       activationMode: 'background'
+      #       authenticationRequired: no
+      #       destructive: yes
+      #       behavior: 'default'
+      # - name: Trash Recycle
+      #   identifier: 'trash_recycle'
+      #   actions:
+      #     - identifier: 'TRASH_LEFT'
+      #       title: 'Done'
+      #       activationMode: 'background'
+      #       authenticationRequired: no
+      #       destructive: yes
+      #       behavior: 'default'
+      #     - identifier: 'TRASH_REMIND_LATER'
+      #       title: 'Remind Later'
+      #       activationMode: 'background'
+      #       authenticationRequired: yes
+      #       destructive: yes
+      #       behavior: 'default'
 
 zwave:
   usb_path: /zwaveusbstick
-  # device_config: !include zwave_device_config.yaml
-  # new_entity_ids: true
 
-nest:
-  client_id: !secret nest_client_id
-  client_secret: !secret nest_client_secret
 
-wemo:
-  static:
-  #   - 192.168.3.62
-    - 192.168.3.63
-    - 192.168.3.64
-    - 192.168.3.65
+# nest:
+#   client_id: !secret nest_client_id
+#   client_secret: !secret nest_client_secret
+
+# wemo:
+#   static:
+#     # - 192.168.3.62
+#     - 192.168.3.63
+#     - 192.168.3.64
+#     - 192.168.3.65
 
 tts:
   - platform: google
 
+# influxdb:
+#   host: 192.168.1.100
+#   username: poldim
+#   password: ***REMOVED***
+#   database: OptiPlex
 
 zone 1:
   name: Home
@@ -143,34 +170,74 @@ zone 2:
   radius: 100
   icon: mdi:worker
 
-ffmpeg:
-  ffmpeg_bin: /usr/bin/ffmpeg
+usps:
+  username: !secret usps_user
+  password: !secret usps_password
 
 
+#Setup Telegram to allow you to reply to your chat Bot
+# telegram_bot:
+#   platform: polling
+#   api_key: !secret telegram_bot_api_key
+#   allowed_chat_ids:
+#     - !secret telegram_bot_allowed_chat_ids
+#     # - <chatID2>
+#     # - <chatID3>
 
 
-
-
-# usps:
-#   username: !secret usps_user
-#   password: !secret usps_password
-
+binary_sensor:
+  - platform: template
+    sensors:
+      garage_door_open_for_15mins:
+        value_template: '{{ is_state("cover.garage_door", "open") and (as_timestamp(now()) - as_timestamp(states.cover.garage_door.last_changed) > 15 * 60 ) }}'
 
 
 cover:
+  ## GARAGE DOOR
   - platform: mqtt
-    name: Garage Door MQTT-WEMOS
-    friendly_name: Garage
-    state_topic: "garage/door"
-    command_topic: "garage/button"
+    name: "Garage Door Control"
+    friendly_name: Garage Door
+    state_topic: "homeassistant/garage/door/status"
+    state_open: "OPEN"
+    state_closed: "CLOSED"
+    command_topic: "homeassistant/garage/door/control"
     payload_open: "OPEN"
     payload_close: "OPEN"
     payload_stop: "OPEN"
-    state_open: "OPENED"
-    state_closed: "CLOSED"
     optimistic: false
     retain: false
     value_template: '{{ value }}'
+  ## CURTAINS, BEDROOM
+  - platform: template
+    covers:
+      bedroom_curtains:
+        friendly_name: "Curtains"
+        # position_template: "{{ states('cover.bedroom_curtains.last_updated') }}"
+        open_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.curtains_open
+        close_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.curtains_close
+        stop_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.curtains_stop
+        icon_template: >-
+          {% if states('sensor.garage_door')|float > 0 %}
+            mdi:garage-open
+          {% else %}
+            mdi:garage
+          {% endif %}
+
+
+
+# mqtt_statestream:
+#   base_topic: garage
+#   publish_attributes: true
+#   publish_timestamps: true
 
 
 
@@ -184,3 +251,31 @@ input_select:
       - Finishing
       - Clean
     initial: Idle
+
+
+
+input_number:
+  alarmhour:
+    name: Hour
+    icon: mdi:timer
+    initial: 7
+    min: 0
+    max: 23
+    step: 1
+  alarmminutes:
+    name: Minutes
+    icon: mdi:timer
+    initial: 0
+    min: 0
+    max: 59
+    step: 5
+
+input_boolean:
+  alarmweekday:
+    name: Weekdays
+    initial: on
+    icon: mdi:calendar
+  alarmweekend:
+    name: Weekends
+    initial: on
+    icon: mdi:calendar
