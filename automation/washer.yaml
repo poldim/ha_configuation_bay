@@ -114,7 +114,7 @@
       entity_id: sensor.washer_power
       above: 900
       for:
-        seconds: 1
+        minutes: 1
     # - platform: state
     #   entity_id: device_tracker.dksiphone
     #   to: 'home'

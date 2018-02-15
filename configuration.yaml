@@ -94,46 +94,15 @@ config: #configuration panel
 #   token: !secret logentries_token
 
 
-ios:
-  push:
-    categories:
-      - name: Garage Door Notify
-        identifier: 'garage1'
-        actions:
-          - identifier: 'CLOSE_GARAGE' ## this must point to an action ##
-            title: 'Close the Garage'
-            activationMode: 'background'
-            authenticationRequired: yes
-            destructive: yes
-            behavior: 'default'
-      # - name: Wemo 1 Action Notify
-      #   identifier: 'wemo1'
-      #   actions:
-      #     - identifier: 'WEMO1_ON' ## this must point to an action ##
-      #       title: 'Turn off Wemo 1'
-      #       activationMode: 'background'
-      #       authenticationRequired: no
-      #       destructive: yes
-      #       behavior: 'default'
-      # - name: Trash Recycle
-      #   identifier: 'trash_recycle'
-      #   actions:
-      #     - identifier: 'TRASH_LEFT'
-      #       title: 'Done'
-      #       activationMode: 'background'
-      #       authenticationRequired: no
-      #       destructive: yes
-      #       behavior: 'default'
-      #     - identifier: 'TRASH_REMIND_LATER'
-      #       title: 'Remind Later'
-      #       activationMode: 'background'
-      #       authenticationRequired: yes
-      #       destructive: yes
-      #       behavior: 'default'
-
 zwave:
   usb_path: /zwaveusbstick
 
+
+panel_iframe:
+  ide:
+    title: AIRBNB
+    icon: mdi:home-heart
+    url: !secret airbnb_url
 
 # nest:
 #   client_id: !secret nest_client_id
@@ -185,6 +154,43 @@ usps:
 #     # - <chatID3>
 
 
+ios:
+  push:
+    categories:
+      - name: Garage Door Notify
+        identifier: 'garage1'
+        actions:
+          - identifier: 'CLOSE_GARAGE' ## this must point to an action ##
+            title: 'Close the Garage'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+      # - name: Wemo 1 Action Notify
+      #   identifier: 'wemo1'
+      #   actions:
+      #     - identifier: 'WEMO1_ON' ## this must point to an action ##
+      #       title: 'Turn off Wemo 1'
+      #       activationMode: 'background'
+      #       authenticationRequired: no
+      #       destructive: yes
+      #       behavior: 'default'
+      # - name: Trash Recycle
+      #   identifier: 'trash_recycle'
+      #   actions:
+      #     - identifier: 'TRASH_LEFT'
+      #       title: 'Done'
+      #       activationMode: 'background'
+      #       authenticationRequired: no
+      #       destructive: yes
+      #       behavior: 'default'
+      #     - identifier: 'TRASH_REMIND_LATER'
+      #       title: 'Remind Later'
+      #       activationMode: 'background'
+      #       authenticationRequired: yes
+      #       destructive: yes
+      #       behavior: 'default'
+
 binary_sensor:
   - platform: template
     sensors:
@@ -234,14 +240,6 @@ cover:
 
 
 
-# mqtt_statestream:
-#   base_topic: garage
-#   publish_attributes: true
-#   publish_timestamps: true
-
-
-
-
 input_select:
   washer_status:
     name: Washing Machine Status
@@ -265,10 +263,10 @@ input_number:
   alarmminutes:
     name: Minutes
     icon: mdi:timer
-    initial: 0
+    initial: 10
     min: 0
     max: 59
-    step: 5
+    step: 1
 
 input_boolean:
   alarmweekday:
@@ -277,5 +275,5 @@ input_boolean:
     icon: mdi:calendar
   alarmweekend:
     name: Weekends
-    initial: on
+    initial: off
     icon: mdi:calendar
