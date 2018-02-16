@@ -120,8 +120,10 @@ tts:
 
 # influxdb:
 #   host: 192.168.1.100
+<<<<<<< HEAD
 #   username: !secret influxdb_user
 #   password: !secret influxdb_password
+>>>>>>> 5d8d7853adf858470d23640fde00dba7a972cea1
 #   database: OptiPlex
 
 zone 1:
