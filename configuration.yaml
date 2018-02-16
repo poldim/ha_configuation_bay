@@ -120,8 +120,8 @@ tts:
 
 # influxdb:
 #   host: 192.168.1.100
-#   username: poldim
-#   password: password
+#   username: !secret influxdb_user
+#   password: !secret influxdb_password
 #   database: OptiPlex
 
 zone 1:
