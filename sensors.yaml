@@ -343,8 +343,45 @@
       arg: eth0
 
 
-
-
+  - platform: crimereports
+    name: Crime Reports
+    radius: 1000
+    # include:
+    # exclude:
+      # Alarm
+      # Arson
+      # Assault
+      # Assault with Deadly Weapon
+      # Breaking & Entering
+      # Community Policing
+      # Death
+      # Disorder
+      # Drugs
+      # Emergency
+      # Family Offense
+      # Fire
+      # Homicide
+      # Kidnapping
+      # Liquor
+      # Missing Person
+      # Other
+      # Other Sexual Offense
+      # Pedestrian Stop
+      # Proactive Policing
+      # Property Crime
+      # Property Crime Commercial
+      # Property Crime Residential
+      # Quality of Life
+      # Robbery
+      # Sexual Assault
+      # Sexual Offense
+      # Theft
+      # Theft from Vehicle
+      # Theft of Vehicle
+      # Traffic
+      # Vehicle Recovery
+      # Vehicle Stop
+      # Weapons Offense
 
 # - platform: systemmonitor
 #   resources:
